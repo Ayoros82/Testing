@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1724">
+    <title>TideScope — tide chart from files</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="TideScope home">
+          <span class="brand-mark" aria-hidden="true">≈</span>
+          <span>TideScope</span>
+        </a>
+        <span class="privacy-note"><span class="privacy-dot"></span> Files stay on your device</span>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">TIDAL DATA, MADE CLEAR</p>
+        <h1>Turn your survey files<br>into a <span>tide chart.</span></h1>
+        <p class="intro-copy">Bring together tide readings from .tid, .txt, .csv, .fbf and .pos files. Preview, adjust columns and chart your data in one place.</p>
+      </section>
+
+      <section class="workspace" aria-label="Tide chart workspace">
+        <div class="import-panel panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">01 / IMPORT</p>
+              <h2>Add your files</h2>
+            </div>
+            <span id="file-count" class="count-badge">0 files</span>
+          </div>
+
+          <label id="drop-zone" class="drop-zone" for="file-input" tabindex="0">
+            <input id="file-input" type="file" accept=".tid,.txt,.csv,.fbf,.pos,.log,.dat" multiple>
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg>
+            </span>
+            <span class="drop-title">Drop files here, or <span>browse</span></span>
+            <span class="drop-hint">.TID &nbsp; .TXT &nbsp; .CSV &nbsp; .FBF &nbsp; .POS</span>
+          </label>
+
+          <div id="file-list" class="file-list" aria-live="polite"></div>
+          <p class="format-note">Text-based files are processed locally in your browser. Binary or proprietary exports may need to be converted to readable text first.</p>
+        </div>
+
+        <div class="chart-panel panel">
+          <div class="section-heading chart-heading">
+            <div>
+              <p class="eyebrow">02 / VISUALIZE</p>
+              <h2>Your tide chart</h2>
+            </div>
+            <label class="unit-control">Unit
+              <input id="unit-input" type="text" value="m" maxlength="12" aria-label="Tide value unit">
+            </label>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-art" aria-hidden="true">
+              <svg viewBox="0 0 220 120">
+                <path class="art-grid" d="M15 20.5h190M15 50.5h190M15 80.5h190M15 110.5h190M15 20v91M63 20v91M111 20v91M159 20v91M205 20v91"/>
+                <path class="art-wave" d="M16 82c17 0 17-44 34-44s17 64 34 64 17-49 34-49 17 37 34 37 17-23 34-23 17 11 19 11"/>
+              </svg>
+            </div>
+            <h3>Your chart is waiting for data</h3>
+            <p>Add one or more files to see tide readings over time.</p>
+          </div>
+
+          <div id="chart-content" class="chart-content" hidden>
+            <div class="stats">
+              <div><span class="stat-label">HIGH</span><strong id="high-stat">—</strong><small id="high-time"></small></div>
+              <div><span class="stat-label">MEAN</span><strong id="mean-stat">—</strong><small id="reading-count"></small></div>
+              <div><span class="stat-label">LOW</span><strong id="low-stat">—</strong><small id="low-time"></small></div>
+            </div>
+            <div class="chart-wrap">
+              <svg id="chart" role="img" aria-label="Tide readings over time"></svg>
+              <div id="chart-tooltip" class="chart-tooltip" role="status" hidden></div>
+            </div>
+            <div class="chart-footer">
+              <span id="time-range">—</span>
+              <button id="download-button" class="text-button" type="button">Download CSV <span aria-hidden="true">↗</span></button>
+            </div>
+            <div id="data-message" class="data-message" role="status" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mapping-panel" class="mapping-panel panel" hidden>
+        <div class="section-heading mapping-heading">
+          <div>
+            <p class="eyebrow">03 / CHECK DATA</p>
+            <h2>Review columns</h2>
+          </div>
+          <label class="file-picker-label" for="active-file">File
+            <select id="active-file"></select>
+          </label>
+        </div>
+        <p class="mapping-help">Choose the date/time and tide-height columns for this file. Auto-detect works for common delimited and whitespace-separated text exports.</p>
+        <div class="mapping-controls">
+          <label>Date / timestamp <select id="date-column"></select></label>
+          <label>Time (optional) <select id="time-column"></select></label>
+          <label>Tide value <select id="value-column"></select></label>
+        </div>
+        <div class="preview-wrap">
+          <table>
+            <thead id="preview-head"></thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer>
+        <span>Designed for field data. Built for a clearer picture.</span>
+        <span>All processing happens locally.</span>
+      </footer>
+    </main>
+  </body>
+</html>
